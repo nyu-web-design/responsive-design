@@ -1,6 +1,6 @@
 # Responsive Design
 
-Welcome! In this assignment, you will incorporate CSS media queries into your existing web pages from the most recent version of your personal weeb site that you have built in previous assignments. This will allow your page layout to become **responsive**, meaning their layout, content, and/or styles change based on the size of the viewer's web browser in order to make the page well-designed and perfectly fit to whatever device the user is using at the moment.
+Welcome! In this assignment, you will incorporate CSS media queries into your existing web pages from the most recent version of your personal web site that you have built in previous assignments. This will allow your page layout to become **responsive**, meaning their layout, content, and/or styles change based on the size of the viewer's web browser in order to make the page well-designed and perfectly fit to whatever device the user is using at the moment.
 
 ## Requirements
 
@@ -61,7 +61,7 @@ Your task is the following:
 - use a **container div** around all content of all pages - this must be given the class, `container` and must be used to center the page.
 - create a `header` and `footer` that is repeated on all pages - these must have a consistent style across all pages and should be the full width of the container.
 - create a **fixed width three-column layout for desktop** widths - the columns must sit side-by-side and each column must be one-third of the container width.
-- create a **fixed width two-column layout for tablet** widths - the first two columns will sit side-by-side anad each be half the container width, and the third column must be full width below those first two.
+- create a **fixed width two-column layout for tablet** widths - the first two columns will sit side-by-side and each be half the container width, and the third column must be full width below those first two.
 - create a **one-column scaling layout for smartphone** widths - all the elements that were side-by-side in the desktop and tablet layouts must now be stacked one on top of the other. The widths of each must be the full container width.
 - _the width of the site pages must never be wider than the browser's width_.
 
