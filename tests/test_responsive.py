@@ -60,7 +60,7 @@ class Tests:
     Check that footer tag exists.
     """
     elem = driver.find_element_by_tag_name("footer")
-    assert elem
+    assert elem, 'Footer element not found'
 
   def test_columns_exist(self, driver, settings):
     """
@@ -68,7 +68,7 @@ class Tests:
     """
     for selector in settings['responsive_column_selectors']:
       elem = driver.find_elements_by_css_selector(selector)
-      assert elem
+      assert elem, f'{selector} element not found'
 
   def test_mobile_width(self, settings, driver, zoom):
     """
@@ -91,12 +91,15 @@ class Tests:
       url = "{}/{}".format(settings["site_url"], page)
       driver.get(url) # return to page of interest
 
-      container = driver.find_element_by_css_selector(".container")
-      header = driver.find_element_by_tag_name("header")
-      footer = driver.find_element_by_tag_name("footer")
-      column1 = driver.find_element_by_css_selector(".column1")
-      column2 = driver.find_element_by_css_selector(".column2")
-      column3 = driver.find_element_by_css_selector(".column3")
+      try:
+        container = driver.find_element_by_css_selector(".container")
+        header = driver.find_element_by_tag_name("header")
+        footer = driver.find_element_by_tag_name("footer")
+        column1 = driver.find_element_by_css_selector(".column1")
+        column2 = driver.find_element_by_css_selector(".column2")
+        column3 = driver.find_element_by_css_selector(".column3")
+      except Exception as e:
+        assert False, f'Error analyzing {page}: {e}'
 
       # determine margin and padding on container
       # pl = int(container.value_of_css_property('padding-left')[:-2])
@@ -106,18 +109,18 @@ class Tests:
       # available_width = container.size['width'] - pl - pr - ml - mr
 
       # check widths are appropriate
-      assert container.size["width"] <= browser_width
-      assert header.size["width"] <= container.size["width"]
-      assert footer.size["width"] <= container.size["width"]
-      assert column1.size["width"] <= container.size["width"]
-      assert column2.size["width"] <= container.size["width"]
-      assert column3.size["width"] <= container.size["width"]
+      assert container.size["width"] <= browser_width, f'Container width on mobile is wider than the browser viewport on {page}.'
+      assert header.size["width"] <= container.size["width"], f'Header width on mobile is wider than the container on {page}.'
+      assert footer.size["width"] <= container.size["width"], f'Footer width on mobile is wider than the container on {page}.'
+      assert column1.size["width"] <= container.size["width"], f'Column 1 width on mobile is wider than the container on {page}.'
+      assert column2.size["width"] <= container.size["width"], f'Column 2 width on mobile is wider than the container on {page}.'
+      assert column3.size["width"] <= container.size["width"], f'Column 3 width on mobile is wider than the container on {page}.'
 
       # check floats are appropriate
-      assert container.value_of_css_property('float') == 'none'
-      assert column1.value_of_css_property('float') == 'none'
-      assert column2.value_of_css_property('float') == 'none'
-      assert column3.value_of_css_property('float') == 'none'
+      # assert container.value_of_css_property('float') == 'none'
+      # assert column1.value_of_css_property('float') == 'none'
+      # assert column2.value_of_css_property('float') == 'none'
+      # assert column3.value_of_css_property('float') == 'none'
 
   def test_tablet_width(self, settings, driver):
     """
@@ -139,12 +142,15 @@ class Tests:
         url = "{}/{}".format(settings["site_url"], page)
         driver.get(url) # return to page of interest
 
-        container = driver.find_element_by_css_selector(".container")
-        header = driver.find_element_by_tag_name("header")
-        footer = driver.find_element_by_tag_name("footer")
-        column1 = driver.find_element_by_css_selector(".column1")
-        column2 = driver.find_element_by_css_selector(".column2")
-        column3 = driver.find_element_by_css_selector(".column3")
+        try:
+          container = driver.find_element_by_css_selector(".container")
+          header = driver.find_element_by_tag_name("header")
+          footer = driver.find_element_by_tag_name("footer")
+          column1 = driver.find_element_by_css_selector(".column1")
+          column2 = driver.find_element_by_css_selector(".column2")
+          column3 = driver.find_element_by_css_selector(".column3")
+        except Exception as e:
+          assert False, f'Error analyzing {page}: {e}'
 
         # determine margin and padding on container
         # pl = int(container.value_of_css_property('padding-left')[:-2])
@@ -154,26 +160,26 @@ class Tests:
         # available_width = container.size['width'] - pl - pr - ml - mr
 
         # check widths are appropriate
-        assert container.size["width"] <= browser_width
-        assert header.size["width"] <= container.size["width"]
-        assert footer.size["width"] <= container.size["width"]
-        assert column1.size["width"] <= container.size["width"]
-        assert column2.size["width"] <= container.size["width"]
-        assert column3.size["width"] <= container.size["width"]
+        assert container.size["width"] <= browser_width, f'Container width on tablet is wider than the browser viewport on {page}.'
+        assert header.size["width"] <= container.size["width"], f'Header width on tablet is wider than the container on {page}.'
+        assert footer.size["width"] <= container.size["width"], f'Footer width on tablet is wider than the container on {page}.'
+        assert column1.size["width"] <= container.size["width"], f'Column 1 width on tablet is wider than the container on {page}.'
+        assert column2.size["width"] <= container.size["width"], f'Column 2 width on tablet is wider than the container on {page}.'
+        assert column3.size["width"] <= container.size["width"], f'Column 3 width on tablet is wider than the container on {page}.'
 
         # check that the columns fit in one row
         assert column1.size['width'] + column2.size['width'] <= container.size["width"]
 
         # remember the size of the container
         if last_container_width >= 0:
-          assert container.size['width'] == last_container_width
+          assert container.size['width'] == last_container_width, 'Container width on tablet is not consistent.'
         else:
           last_container_width = container.size['width']
 
         # check floats are appropriate
-        assert container.value_of_css_property('float') == 'none'
-        assert column1.value_of_css_property('float') == 'left'
-        assert column2.value_of_css_property('float') == 'left'
+        # assert container.value_of_css_property('float') == 'none'
+        # assert column1.value_of_css_property('float') == 'left'
+        # assert column2.value_of_css_property('float') == 'left'
         # assert column3.value_of_css_property('float') == 'left'
 
   def test_desktop_width(self, settings, driver):
@@ -197,12 +203,15 @@ class Tests:
         url = "{}/{}".format(settings["site_url"], page)
         driver.get(url) # return to page of interest
 
-        container = driver.find_element_by_css_selector(".container")
-        header = driver.find_element_by_tag_name("header")
-        footer = driver.find_element_by_tag_name("footer")
-        column1 = driver.find_element_by_css_selector(".column1")
-        column2 = driver.find_element_by_css_selector(".column2")
-        column3 = driver.find_element_by_css_selector(".column3")
+        try:
+          container = driver.find_element_by_css_selector(".container")
+          header = driver.find_element_by_tag_name("header")
+          footer = driver.find_element_by_tag_name("footer")
+          column1 = driver.find_element_by_css_selector(".column1")
+          column2 = driver.find_element_by_css_selector(".column2")
+          column3 = driver.find_element_by_css_selector(".column3")
+        except Exception as e:
+          assert False, f'Error analyzing {page}: {e}'
 
         # determine margin and padding on container
         # pl = int(container.value_of_css_property('padding-left')[:-2])
@@ -212,24 +221,24 @@ class Tests:
         # available_width = container.size['width'] - pl - pr - ml - mr
 
         # check widths are appropriate
-        assert container.size["width"] <= browser_width
-        assert header.size["width"] <= container.size["width"]
-        assert footer.size["width"] <= container.size["width"]
-        assert column1.size["width"] <= container.size["width"]
-        assert column2.size["width"] <= container.size["width"]
-        assert column3.size["width"] <= container.size["width"]
+        assert container.size["width"] <= browser_width, f'Container width on desktop is wider than the browser viewport on {page}.'
+        assert header.size["width"] <= container.size["width"], f'Header width on desktop is wider than the container on {page}.'
+        assert footer.size["width"] <= container.size["width"], f'Footer width on desktop is wider than the container on {page}.'
+        assert column1.size["width"] <= container.size["width"], f'Column 1 width on desktop is wider than the container on {page}.'
+        assert column2.size["width"] <= container.size["width"], f'Column 2 width on desktop is wider than the container on {page}.'
+        assert column3.size["width"] <= container.size["width"], f'Column 3 width on desktop is wider than the container on {page}.'
         
         # check that the columns fit in one row
-        assert column1.size['width'] + column2.size['width'] + column3.size['width'] <= container.size["width"]
+        assert column1.size['width'] + column2.size['width'] + column3.size['width'] <= container.size["width"], 'Columns do not fit in one row on desktop.'
 
         # remember the size of the container
         if last_container_width >= 0:
-          assert container.size['width'] == last_container_width
+          assert container.size['width'] == last_container_width, f'Container width on desktop is not consistent on {page}.'
         else:
           last_container_width = container.size['width']
 
         # check floats are appropriate
-        assert container.value_of_css_property('float') == 'none'
-        assert column1.value_of_css_property('float') == 'left'
-        assert column2.value_of_css_property('float') == 'left'
-        assert column3.value_of_css_property('float') == 'left'
+        # assert container.value_of_css_property('float') == 'none'
+        # assert column1.value_of_css_property('float') == 'left'
+        # assert column2.value_of_css_property('float') == 'left'
+        # assert column3.value_of_css_property('float') == 'left'
